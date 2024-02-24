@@ -26,7 +26,7 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'tensorflow/tensorflow' # Don't do this in forks
+    if: github.repository == 'Shoubi007/tensorflow' # Don't do this in forks
     runs-on: [self-hosted, linux, ARM64]
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -35,7 +35,7 @@ jobs:
         pyver: ['3.9', '3.10']
         experimental: [false]
         include:
-          - pyver: '3.11'
+          - pyver: '3.8'
             experimental: true
     steps:
       - name: Stop old running containers (if any)
@@ -51,7 +51,7 @@ jobs:
           docker container prune -f
       - name: Clean repository
         shell: bash
-        run: find /home/ubuntu/actions-runner/_work/tensorflow/tensorflow/. -name . -o -prune -exec sudo rm -rf -- {} + || true
+        run: find /home/parallels/actions-runner/_work/tensorflow/tensorflow/. -name . -o -prune -exec sudo rm -rf -- {} + || true
       - name: Checkout repository for nightly (skipped for releases)
         if: ${{ github.event_name == 'schedule' }}
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -70,4 +70,4 @@ jobs:
       - name: Upload pip wheel to PyPI
         if: github.event_name == 'schedule' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v2')) # only if it is a scheduled nightly or tagged
         shell: bash
-        run: python3 -m twine upload --verbose /home/ubuntu/actions-runner/_work/tensorflow/tensorflow/whl/* -u "__token__" -p ${{ secrets.AWS_PYPI_ACCOUNT_TOKEN }}
+        run: python3 -m twine upload --verbose /home/parallels/actions-runner/_work/tensorflow/tensorflow/whl/* -u "__token__" -p ${{ secrets.AWS_PYPI_ACCOUNT_TOKEN }}

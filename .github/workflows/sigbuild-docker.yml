@@ -30,11 +30,11 @@ on:
 
 jobs:
   docker:
-    if: github.repository == 'tensorflow/tensorflow' # Don't do this in forks
+    if: github.repository == 'Shoubi007/tensorflow' # Don't do this in forks
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [python3.9, python3.10, python3.11]
+        python-version: [python3.9, python3.10, python3.8]
     steps:
       -
         name: Checkout

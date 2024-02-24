@@ -29,11 +29,11 @@ on:
 jobs:
   build:
     # Don't do this in forks, and if labeled, only for 'kokoro:force-run'
-    if: github.repository == 'tensorflow/tensorflow' && (github.event.action != 'labeled' || (github.event.action == 'labeled' && github.event.label.name == 'kokoro:force-run'))
+    if: github.repository == 'Shoubi007/tensorflow' && (github.event.action != 'labeled' || (github.event.action == 'labeled' && github.event.label.name == 'kokoro:force-run'))
     runs-on: [self-hosted, linux, ARM64]
     strategy:
       matrix:
-        pyver: ['3.10']
+        pyver: ['3.8']
     steps:
       - name: Stop old running containers (if any)
         shell: bash
@@ -48,7 +48,7 @@ jobs:
           docker container prune -f
       - name: Clean repository
         shell: bash
-        run: find /home/ubuntu/actions-runner/_work/tensorflow/tensorflow/. -name . -o -prune -exec sudo rm -rf -- {} + || true
+        run: find /home/parallels/actions-runner/_work/tensorflow/tensorflow/. -name . -o -prune -exec sudo rm -rf -- {} + || true
       - name: Checkout repository
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
       - name: Build binary and run python tests
